@@ -1,6 +1,7 @@
 package com.example.kug00.androidgithub;
 
 import android.content.Intent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutCompat;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         //현재 월 텍스트 출력
         Month1.setText(getTime(1));
         Month2.setText(getTime(1));
+
     }
 
     //파라미터에 따라 0일때 전체 일자 1일때 월 출력
