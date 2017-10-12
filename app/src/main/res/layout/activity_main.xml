@@ -138,12 +138,23 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textView"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="10월 추천 여행지"
-            android:textSize="15sp"/>
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/month1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="현재일자 없습니다."
+                android:textSize="15sp"/>
+            <TextView
+                android:id="@+id/textView00"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="월 추천 여행지"
+                android:textSize="15sp"/>
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/imageView2"
@@ -160,12 +171,23 @@
         android:onClick="true"
         android:id="@+id/goparty">
 
-        <TextView
-            android:id="@+id/textView2"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="10월 행사정보"
-            android:textSize="15sp"/>
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/month2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="현재일자 없습니다."
+                android:textSize="15sp"/>
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="월 행사정보"
+                android:textSize="15sp"/>
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/imageView3"
