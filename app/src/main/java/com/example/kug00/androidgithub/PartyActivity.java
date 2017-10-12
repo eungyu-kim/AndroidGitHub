@@ -1,11 +1,13 @@
 package com.example.kug00.androidgithub;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -63,6 +65,22 @@ public class PartyActivity extends AppCompatActivity {
         adapter.addItem(ContextCompat.getDrawable(this, R.drawable.ic_person_pin_circle_black_36dp),"억새축제", "주소:...") ;
         //행사정보 어댑터 리스트 뷰에 달기
         PartyList.setAdapter(adapter);
+
+        // 위에서 생성한 listview에 클릭 이벤트 핸들러 정의.
+        PartyList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id) {
+                // get item
+                PartyListViewItem item = (PartyListViewItem) parent.getItemAtPosition(position) ;
+
+                String titleStr = item.getTitle() ;
+                String descStr = item.getDesc() ;
+                Drawable iconDrawable = item.getIcon() ;
+
+                // TODO : use item data.
+            }
+        }) ;
+
     }
     //파라미터에 따라 0일때 전체 일자 1일때 월 출력
     private String getTime(int x){
