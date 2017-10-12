@@ -1,7 +1,11 @@
 package com.example.kug00.androidgithub;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -10,13 +14,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //commit test
-        //commit test2
-        //commit test3
-        //commit test
-        //test
-        //test3
-        //태환 테스트
-        //지원 테스트
+        //아이디 가져오기
+        ImageButton GoToPlan = (ImageButton) findViewById(R.id.goplan);
+
+        //여행계획으로 화면 이동
+        GoToPlan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it = new Intent(MainActivity.this, PlanActivity.class);
+                startActivity(it);
+            }
+        });
     }
 }
