@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".PlanActivity"/>
+        <activity android:name=".PartyActivity"/>
     </application>
 
 </manifest>
