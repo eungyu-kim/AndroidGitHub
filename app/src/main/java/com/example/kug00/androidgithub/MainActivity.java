@@ -1,17 +1,20 @@
 package com.example.kug00.androidgithub;
 
 import android.content.Intent;
-import android.support.v4.content.ContextCompat;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutCompat;
+import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -23,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     //전체 일자 출력
     SimpleDateFormat Format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     SimpleDateFormat mFormat = new SimpleDateFormat("MM");
+    //JSON 문자열을 저장할 문자열
+    String myJSON;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
         Month1.setText(getTime(1));
         Month2.setText(getTime(1));
 
+        getData("http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchFestival?serviceKey=8F4FRvrVqxyBojiBd%2F7SGgGkxpeG6bUdOfq3MHZFGEvVCs2rr%2FB8QBNsjAnt4JyqUK0hHYbb64Or9bcma65Tgw%3D%3D&MobileOS=ETC&MobileApp=AppTest&arrange=A&listYN=Y&eventStartDate=20170901&_type=json");
+        Log.d("Result","myJSON 결과"+myJSON);
     }
 
     //파라미터에 따라 0일때 전체 일자 1일때 월 출력
@@ -69,5 +76,34 @@ public class MainActivity extends AppCompatActivity {
             return mFormat.format(mDate);
         else
             return "현재일자를 받지 못했습니다.";
+    }
+    public void getData(String url){
+        class GetDataJSON extends AsyncTask<String, Void, String> {
+            @Override
+            protected String doInBackground(String... params) {
+                String uri = params[0];
+                BufferedReader bufferedReader = null;
+                try {
+                    URL url = new URL(uri);
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    StringBuilder sb = new StringBuilder();
+                    bufferedReader = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    String json;
+                    while((json = bufferedReader.readLine())!= null) {
+                        sb.append(json+"\n");
+                    }
+                    return sb.toString().trim();
+                } catch(IOException e){
+                    return "다운로드 실패";
+                }
+            }
+            @Override
+            protected void onPostExecute(String result) {
+                myJSON=result;
+                Log.d("Result","myJSON 결과"+myJSON);
+            }
+        }
+        GetDataJSON g = new GetDataJSON();
+        g.execute(url);
     }
 }
