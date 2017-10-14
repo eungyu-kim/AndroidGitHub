@@ -7,11 +7,11 @@ import android.graphics.drawable.Drawable;
  */
 
 public class PartyListViewItem {
-    private Drawable iconDrawable ;
+    private String iconDrawable ;
     private String titleStr ;
     private String addrStr ;
 
-    public void setIcon(Drawable icon) {
+    public void setIcon(String icon) {
         iconDrawable = icon ;
     }
     public void setTitle(String title) {
@@ -21,7 +21,7 @@ public class PartyListViewItem {
         addrStr = addr ;
     }
 
-    public Drawable getIcon() {
+    public String getIcon() {
         return this.iconDrawable ;
     }
     public String getTitle() {

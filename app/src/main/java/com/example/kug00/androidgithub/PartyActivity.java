@@ -11,10 +11,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
-import android.widget.ListAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -97,7 +98,7 @@ public class PartyActivity extends AppCompatActivity {
 
                 String titleStr = item.getTitle() ;
                 String descStr = item.getDesc() ;
-                Drawable iconDrawable = item.getIcon() ;
+                String iconDrawable = item.getIcon() ;
 
                 // TODO : use item data.
             }
@@ -106,11 +107,13 @@ public class PartyActivity extends AppCompatActivity {
 
 
         getData("http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchFestival?serviceKey=8F4FRvrVqxyBojiBd%2F7SGgGkxpeG6bUdOfq3MHZFGEvVCs2rr%2FB8QBNsjAnt4JyqUK0hHYbb64Or9bcma65Tgw%3D%3D&MobileOS=ETC&MobileApp=AppTest&arrange=A&listYN=Y&eventStartDate=20170901&_type=json");
-        // 세 번째 아이템 추가.
-        //adapter.addItem(ContextCompat.getDrawable(this, R.drawable.ic_person_pin_circle_black_36dp),"억새축제", "주소:...") ;
 
-        //행사정보 어댑터 리스트 뷰에 달기
-        //PartyList.setAdapter(adapter);
+        //ImageView imageView = (ImageView) findViewById(R.id.imageView00);
+        Picasso.with(this)
+                .load("http://square.github.io/picasso/static/sample.png")
+                .into((ImageView)findViewById(R.id.imageView00));
+
+        //Picasso.with(context).load("http://i.imgur.com/DvpvklR.png").into(imageView);
 
     }
     //파라미터에 따라 0일때 전체 일자 1일때 월 출력
@@ -208,11 +211,11 @@ public class PartyActivity extends AppCompatActivity {
                 PartyHash.put(EventStart,eventstartdate);
                 PartyHash.put(EventEnd,eventenddate);
                 PartyListHash.add(PartyHash);
-                // 첫 번째 아이템 추가.
-                adapter.addItem(ContextCompat.getDrawable(this, R.drawable.ic_clear_white_36dp),title, addr1) ;
+                // 아이템 추가.
+                adapter.addItem(firstimage,title, addr1) ;
                 //행사정보 어댑터 리스트 뷰에 달기
-                PartyList.setAdapter(adapter);
             }
+            PartyList.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }
