@@ -10,6 +10,8 @@ public class PartyListViewItem {
     private String iconDrawable ;
     private String titleStr ;
     private String addrStr ;
+    private String Start ;
+    private String End ;
 
     public void setIcon(String icon) {
         iconDrawable = icon ;
@@ -20,6 +22,12 @@ public class PartyListViewItem {
     public void setDesc(String addr) {
         addrStr = addr ;
     }
+    public void setStart(String start) {
+        Start = start ;
+    }
+    public void setEnd(String end) {
+        End = end ;
+    }
 
     public String getIcon() {
         return this.iconDrawable ;
@@ -29,5 +37,11 @@ public class PartyListViewItem {
     }
     public String getDesc() {
         return this.addrStr ;
+    }
+    public String getStart() {
+        return this.Start ;
+    }
+    public String getEnd() {
+        return this.End ;
     }
 }

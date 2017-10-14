@@ -58,12 +58,12 @@ public class MonthAdapter extends BaseAdapter{
         mCalendar.set(Calendar.DAY_OF_MONTH, 1);
         int dayOfWeek = mCalendar.get(Calendar.DAY_OF_WEEK);
         firstDay = getFirstDay(dayOfWeek);
-        Log.d(TAG, "firstDay : " + firstDay);
+        //Log.d(TAG, "firstDay : " + firstDay);
         mStartDay = mCalendar.getFirstDayOfWeek();
         curYear = mCalendar.get(Calendar.YEAR);
         curMonth = mCalendar.get(Calendar.MONTH);
         lastDay = getMonthLastDay(curYear, curMonth);
-        Log.d(TAG, "curYear : " + curYear + ", curMonth : " + curMonth + ", lastDay : " + lastDay);
+        //Log.d(TAG, "curYear : " + curYear + ", curMonth : " + curMonth + ", lastDay : " + lastDay);
         int diff = mStartDay - Calendar.SUNDAY - 1;
         startDay = getFirstDayOfWeek();
     }
@@ -126,7 +126,7 @@ public class MonthAdapter extends BaseAdapter{
         return position;
     }
     public View getView(int position, View convertView, ViewGroup parent) {
-        Log.d(TAG, "getView(" + position + ") called.");
+        //Log.d(TAG, "getView(" + position + ") called.");
         MonthItemView itemView;
         if (convertView == null) {
             itemView = new MonthItemView(mContext);
@@ -137,7 +137,7 @@ public class MonthAdapter extends BaseAdapter{
                 GridView.LayoutParams.MATCH_PARENT, 120);
         int rowIndex = position / countColumn;
         int columnIndex = position % countColumn;
-        Log.d(TAG, "Index : " + rowIndex + ", " + columnIndex);
+        //Log.d(TAG, "Index : " + rowIndex + ", " + columnIndex);
         // set item data and properties
         TrueSeting(items[position].getDay());
         if (recreate) {

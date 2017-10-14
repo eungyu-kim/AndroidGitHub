@@ -1,11 +1,9 @@
 package com.example.kug00.androidgithub;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -26,9 +24,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 
 /**
@@ -36,12 +32,6 @@ import java.util.HashMap;
  */
 
 public class PartyActivity extends AppCompatActivity {
-    long mNow;
-    Date mDate;
-    //전체 일자 출력
-    SimpleDateFormat Format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-    SimpleDateFormat mFormat = new SimpleDateFormat("MM");
-
     //JSON 문자열을 저장할 문자열
     String partydata;
     //JSON에서 목록을 만들기위한 배열
@@ -79,12 +69,13 @@ public class PartyActivity extends AppCompatActivity {
             }
         });
 
+        GetTime time = new GetTime();
         //월 텍스트에 출력
-        TMonth1.setText(getTime(1));
-        TMonth2.setText(getTime(1));
+        TMonth1.setText(time.getTime(1));
+        TMonth2.setText(time.getTime(1));
 
         //현재시간 출력
-        Time.setText(getTime(0));
+        Time.setText(time.getTime(0));
 
         //여행 리스트뷰 어댑터 생성
         adapter = new PartyAdapter();
@@ -105,7 +96,6 @@ public class PartyActivity extends AppCompatActivity {
         }) ;
 
 
-
         getData("http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchFestival?serviceKey=8F4FRvrVqxyBojiBd%2F7SGgGkxpeG6bUdOfq3MHZFGEvVCs2rr%2FB8QBNsjAnt4JyqUK0hHYbb64Or9bcma65Tgw%3D%3D&MobileOS=ETC&MobileApp=AppTest&arrange=A&listYN=Y&eventStartDate=20170901&_type=json");
 
         //ImageView imageView = (ImageView) findViewById(R.id.imageView00);
@@ -116,18 +106,6 @@ public class PartyActivity extends AppCompatActivity {
         //Picasso.with(context).load("http://i.imgur.com/DvpvklR.png").into(imageView);
 
     }
-    //파라미터에 따라 0일때 전체 일자 1일때 월 출력
-    private String getTime(int x){
-        mNow = System.currentTimeMillis();
-        mDate = new Date(mNow);
-        if (x==0)
-            return Format.format(mDate);
-        else if (x==1)
-            return mFormat.format(mDate);
-        else
-            return "현재일자를 받지 못했습니다.";
-    }
-
     public void getData(String url){
         class GetDataJSON extends AsyncTask<String, Void, String> {
             @Override
@@ -212,9 +190,9 @@ public class PartyActivity extends AppCompatActivity {
                 PartyHash.put(EventEnd,eventenddate);
                 PartyListHash.add(PartyHash);
                 // 아이템 추가.
-                adapter.addItem(firstimage,title, addr1) ;
-                //행사정보 어댑터 리스트 뷰에 달기
+                adapter.addItem(firstimage, title, addr1, eventstartdate, eventenddate) ;
             }
+            //행사정보 어댑터 리스트 뷰에 달기
             PartyList.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();

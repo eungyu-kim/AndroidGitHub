@@ -1,7 +1,6 @@
 package com.example.kug00.androidgithub;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 /**
@@ -48,14 +48,18 @@ public class PartyAdapter extends BaseAdapter {
         ImageView iconImageView = (ImageView) convertView.findViewById(R.id.partyimg) ;
         TextView titleTextView = (TextView) convertView.findViewById(R.id.partytitle) ;
         TextView descTextView = (TextView) convertView.findViewById(R.id.partyaddress) ;
+        TextView statTextView = (TextView) convertView.findViewById(R.id.partystart) ;
+        TextView endTextView = (TextView) convertView.findViewById(R.id.partyend) ;
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
         PartyListViewItem listViewItem = listViewItemList.get(position);
 
-        // 아이템 내 각 위젯에 데이터 반영 피카소 이용해 url 주소 이미지 넣기
+        // 아이템 내 각 위젯에 데이터 반영, 피카소 이용해 url 주소 이미지 넣기
         Picasso.with(context).load(listViewItem.getIcon()).into(iconImageView);
         titleTextView.setText(listViewItem.getTitle());
         descTextView.setText(listViewItem.getDesc());
+        statTextView.setText(listViewItem.getStart());
+        endTextView.setText(listViewItem.getEnd());
 
         return convertView;
     }
@@ -73,13 +77,14 @@ public class PartyAdapter extends BaseAdapter {
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(String icon, String title, String desc) {
+    public void addItem(String icon, String title, String addr, String start, String end) {
         PartyListViewItem item = new PartyListViewItem();
-
         item.setIcon(icon);
         item.setTitle(title);
-        item.setDesc(desc);
-
+        item.setDesc(addr);
+        GetTime datepare = new GetTime();
+        item.setStart(datepare.DateParse(start));
+        item.setEnd(datepare.DateParse(end));
         listViewItemList.add(item);
     }
 }
