@@ -42,7 +42,6 @@ public class UpDate extends AppCompatActivity {
         setContentView(R.layout.update_remove);
         Intent it = getIntent();
         primaryKey = it.getExtras().getInt("itprimary");
-        Toast t =Toast.makeText(UpDate.this,""+primaryKey,Toast.LENGTH_SHORT);t.show();
 
         //Txt id 찾기
         TXyear = (TextView)findViewById(R.id.txtYear);
@@ -65,6 +64,7 @@ public class UpDate extends AppCompatActivity {
                 try {
                     dbmanager = new DBManager(UpDate.this);
                     dbmanager.delete(primaryKey);
+                    Toast.makeText(UpDate.this, year+"년"+month+"월"+day+"일  "+hour+"시"+minute+"분\n"+Ttodo+"\n일정삭제", Toast.LENGTH_LONG).show();
                     Intent goMain = new Intent(UpDate.this, PlanActivity.class);
                     startActivity(goMain);
                 }

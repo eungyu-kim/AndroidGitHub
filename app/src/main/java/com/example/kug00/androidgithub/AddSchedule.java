@@ -164,6 +164,7 @@ public class AddSchedule extends AppCompatActivity{
         SimpleDateFormat mm = new SimpleDateFormat("mm");
         String GetMinute = mm.format(date);
         minute = Integer.parseInt(GetMinute);
+
         //현재 시간으로 설정 초기화
         TXyear.setText("" + year);
         TXmonth.setText("" + month);
