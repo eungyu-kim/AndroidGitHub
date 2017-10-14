@@ -130,8 +130,7 @@ public class PlanActivity extends AppCompatActivity{
         addSchedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast tMsg = Toast.makeText(PlanActivity.this, "일정등록", Toast.LENGTH_SHORT);
-                tMsg.show();
+                Toast.makeText(PlanActivity.this, "일정등록", Toast.LENGTH_SHORT).show();
                 Intent it = new Intent(PlanActivity.this, AddSchedule.class);
                 startActivity(it);
             }

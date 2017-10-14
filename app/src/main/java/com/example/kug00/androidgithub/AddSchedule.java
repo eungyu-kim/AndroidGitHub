@@ -86,40 +86,41 @@ public class AddSchedule extends AppCompatActivity{
         //추가하기 버튼
         ImageButton BtnAdd = (ImageButton)findViewById(R.id.btnadd);
         BtnAdd.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                Tyear = TXyear.getText().toString();
-                Tmonth = TXmonth.getText().toString();
-                Tday = TXday.getText().toString();
-                Thour = TXhour.getText().toString();
-                Tminute = TXminute.getText().toString();
-                Ttodo = EdtTodo.getText().toString();
-                Tplace = EditPlace.getText().toString();
-                Texplain = EditExplain.getText().toString();
-
-                try {
-                    dbmanager = new DBManager(AddSchedule.this);
-                    sqlitedb = dbmanager.getWritableDatabase();
-                    ContentValues values = new ContentValues();
-                    values.put("year", Tyear);
-                    values.put("month", Tmonth);
-                    values.put("day", Tday);
-                    values.put("hour", Thour);
-                    values.put("minute", Tminute);
-                    values.put("todo", Ttodo);
-                    values.put("place", Tplace);
-                    values.put("explain", Texplain);
-                    long newRoewId = sqlitedb.insert("schedule", null, values);
-                    if (newRoewId != -1) {
-                        sqlitedb.close();
-                        dbmanager.close();
-                        Intent it = new Intent(AddSchedule.this, PlanActivity.class);
-                        startActivity(it);
+                if (EdtTodo.getText().toString().equals("")) {
+                    Toast.makeText(AddSchedule.this, "일정을 입력하세요", Toast.LENGTH_SHORT).show();
+                } else {
+                    Ttodo = EdtTodo.getText().toString();
+                    Tyear = TXyear.getText().toString();
+                    Tmonth = TXmonth.getText().toString();
+                    Tday = TXday.getText().toString();
+                    Thour = TXhour.getText().toString();
+                    Tminute = TXminute.getText().toString();
+                    Tplace = EditPlace.getText().toString();
+                    Texplain = EditExplain.getText().toString();
+                    try {
+                        dbmanager = new DBManager(AddSchedule.this);
+                        sqlitedb = dbmanager.getWritableDatabase();
+                        ContentValues values = new ContentValues();
+                        values.put("year", Tyear);
+                        values.put("month", Tmonth);
+                        values.put("day", Tday);
+                        values.put("hour", Thour);
+                        values.put("minute", Tminute);
+                        values.put("todo", Ttodo);
+                        values.put("place", Tplace);
+                        values.put("explain", Texplain);
+                        long newRoewId = sqlitedb.insert("schedule", null, values);
+                        if (newRoewId != -1) {
+                            sqlitedb.close();
+                            dbmanager.close();
+                            Intent it = new Intent(AddSchedule.this, PlanActivity.class);
+                            startActivity(it);
+                        }
+                    } catch (SQLiteException e) {
+                        Toast.makeText(AddSchedule.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     }
-                }
-                catch (SQLiteException e) {
-                    Toast.makeText(AddSchedule.this, e.getMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
