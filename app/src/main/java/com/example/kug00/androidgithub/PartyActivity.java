@@ -111,6 +111,7 @@ public class PartyActivity extends AppCompatActivity {
 
         //행사정보 어댑터 리스트 뷰에 달기
         //PartyList.setAdapter(adapter);
+
     }
     //파라미터에 따라 0일때 전체 일자 1일때 월 출력
     private String getTime(int x){
