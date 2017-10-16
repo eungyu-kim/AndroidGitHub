@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
         //아이디 가져오기
         ImageButton GoToPlan = (ImageButton)findViewById(R.id.goplan);
+        ImageButton GoTmap = (ImageButton)findViewById(R.id.goTmap);
         LinearLayout GoParty = (LinearLayout)findViewById(R.id.goparty);
         TextView Month1 = (TextView)findViewById(R.id.month1);
         TextView Month2 = (TextView)findViewById(R.id.month2);
@@ -35,6 +36,16 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent it = new Intent(MainActivity.this, PlanActivity.class);
+                startActivity(it);
+            }
+        });
+
+        //길찾기로 화면 이동!! 여기서 TmapMain으로 이동해서 시작합니다!!
+        // 해주신 main페이지가 TmapMain입니다.
+        GoTmap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it = new Intent(MainActivity.this, TmapMain.class);
                 startActivity(it);
             }
         });
