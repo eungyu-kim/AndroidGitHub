@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -63,7 +64,7 @@ public class localSearchActivity extends AppCompatActivity {
         });
 
 
-        getData("http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey=8F4FRvrVqxyBojiBd%2F7SGgGkxpeG6bUdOfq3MHZFGEvVCs2rr%2FB8QBNsjAnt4JyqUK0hHYbb64Or9bcma65Tgw%3D%3D&contentTypeId=&areaCode=31&sigunguCode=1&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=12&pageNo=1&_type=json");
+        getData(CreateURL());
     }
 
     public void getData(String url){
@@ -152,8 +153,17 @@ public class localSearchActivity extends AppCompatActivity {
             }
             //행사정보 어댑터 리스트 뷰에 달기
             Locla_S_List.setAdapter(adapter);
+            Log.d("Result","data 결과"+CreateURL());
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    protected String CreateURL() {
+        String servicekey = "8F4FRvrVqxyBojiBd%2F7SGgGkxpeG6bUdOfq3MHZFGEvVCs2rr%2FB8QBNsjAnt4JyqUK0hHYbb64Or9bcma65Tgw%3D%3D";
+        String first="http://api.visitkorea.or.kr/openapi/service/rest/KorService/areaBasedList?ServiceKey=";
+        String last="&contentTypeId=&areaCode=31&sigunguCode=1&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=12&pageNo=1&_type=json";
+        String data  = first + servicekey + last;
+        return data;
     }
 }
