@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout GoParty = (LinearLayout)findViewById(R.id.goparty);
         TextView Month1 = (TextView)findViewById(R.id.month1);
         TextView Month2 = (TextView)findViewById(R.id.month2);
+        Button Search_Btn = (Button)findViewById(R.id.main_search_btn);
 
         //여행계획으로 화면 이동
         GoToPlan.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +58,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent it = new Intent(MainActivity.this, PartyActivity.class);
                 startActivity(it);
+            }
+        });
+
+        //지역검색 버튼 누를 시
+        Search_Btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent it = new Intent(MainActivity.this, localSearchActivity.class);
+                startActivity(it);
+                finish();
             }
         });
 

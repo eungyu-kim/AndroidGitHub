@@ -30,6 +30,7 @@
         <activity android:name=".PartyActivity"/>
         <activity android:name=".AddSchedule"/>
         <activity android:name=".UpDate"/>
+        <activity android:name=".localSearchActivity"/>
     </application>
 
 </manifest>

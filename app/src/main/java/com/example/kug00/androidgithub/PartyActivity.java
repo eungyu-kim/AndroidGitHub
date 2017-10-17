@@ -97,11 +97,11 @@ public class PartyActivity extends AppCompatActivity {
 
 
         getData("http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchFestival?serviceKey=8F4FRvrVqxyBojiBd%2F7SGgGkxpeG6bUdOfq3MHZFGEvVCs2rr%2FB8QBNsjAnt4JyqUK0hHYbb64Or9bcma65Tgw%3D%3D&MobileOS=ETC&MobileApp=AppTest&arrange=A&listYN=Y&eventStartDate=20170901&_type=json");
-
+        //피카소 연습
         //ImageView imageView = (ImageView) findViewById(R.id.imageView00);
-        Picasso.with(this)
+        /*Picasso.with(this)
                 .load("http://square.github.io/picasso/static/sample.png")
-                .into((ImageView)findViewById(R.id.imageView00));
+                .into((ImageView)findViewById(R.id.imageView00));*/
 
         //Picasso.with(context).load("http://i.imgur.com/DvpvklR.png").into(imageView);
 
