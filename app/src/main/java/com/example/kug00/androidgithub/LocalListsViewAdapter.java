@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class LocalListsViewAdapter extends BaseAdapter{
     // Adapter에 추가된 데이터를 저장하기 위한 ArrayList
-    private ArrayList<PartyListViewItem> listViewItemList = new ArrayList<PartyListViewItem>() ;
+    private ArrayList<LocalListViewItem> listViewItemList = new ArrayList<LocalListViewItem>() ;
 
     // ListViewAdapter의 생성자
     public LocalListsViewAdapter() {
@@ -49,7 +49,7 @@ public class LocalListsViewAdapter extends BaseAdapter{
         TextView descTextView = (TextView) convertView.findViewById(R.id.localaddress) ;
 
         // Data Set(listViewItemList)에서 position에 위치한 데이터 참조 획득
-        PartyListViewItem listViewItem = listViewItemList.get(position);
+        LocalListViewItem listViewItem = listViewItemList.get(position);
 
         // 아이템 내 각 위젯에 데이터 반영, 피카소 이용해 url 주소 이미지 넣기
         Picasso.with(context).load(listViewItem.getIcon()).into(iconImageView);
@@ -71,8 +71,8 @@ public class LocalListsViewAdapter extends BaseAdapter{
     }
 
     // 아이템 데이터 추가를 위한 함수. 개발자가 원하는대로 작성 가능.
-    public void addItem(String icon, String title, String addr, String start, String end) {
-        PartyListViewItem item = new PartyListViewItem();
+    public void addItem(String icon, String title, String addr) {
+        LocalListViewItem item = new LocalListViewItem();
         item.setIcon(icon);
         item.setTitle(title);
         item.setDesc(addr);

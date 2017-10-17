@@ -96,7 +96,7 @@ public class PartyActivity extends AppCompatActivity {
         }) ;
 
 
-        getData("http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchFestival?serviceKey=8F4FRvrVqxyBojiBd%2F7SGgGkxpeG6bUdOfq3MHZFGEvVCs2rr%2FB8QBNsjAnt4JyqUK0hHYbb64Or9bcma65Tgw%3D%3D&MobileOS=ETC&MobileApp=AppTest&arrange=A&listYN=Y&eventStartDate=20170901&_type=json");
+        getData("http://api.visitkorea.or.kr/openapi/service/rest/KorService/searchFestival?ServiceKey=8F4FRvrVqxyBojiBd%2F7SGgGkxpeG6bUdOfq3MHZFGEvVCs2rr%2FB8QBNsjAnt4JyqUK0hHYbb64Or9bcma65Tgw%3D%3D&eventStartDate=20171017&eventEndDate=&areaCode=&sigunguCode=&cat1=&cat2=&cat3=&listYN=Y&MobileOS=ETC&MobileApp=TourAPI3.0_Guide&arrange=A&numOfRows=12&pageNo=1&_type=json");
         //피카소 연습
         //ImageView imageView = (ImageView) findViewById(R.id.imageView00);
         /*Picasso.with(this)
@@ -169,7 +169,10 @@ public class PartyActivity extends AppCompatActivity {
                 //Log.d("Result","contentid 결과"+contentid);
                 String title = c.getString(Title);
                 //Log.d("Result","PartyTitle 결과"+title);
-                String addr1 = c.getString(address);
+                //존재하지 않는경우 저장하지 않는다.
+                String addr1 = "주소가 없습니다.";
+                if(c.has(address))
+                 addr1 = c.getString(address);
                 //Log.d("Result","addr1 결과"+addr1);
                 String firstimage ="null";
                 //존재하지 않는경우 저장하지 않는다.
