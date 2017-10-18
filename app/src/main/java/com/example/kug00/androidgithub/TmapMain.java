@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.support.v7.widget.AppCompatAutoCompleteTextView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -21,19 +23,37 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.odsay.odsayandroidsdk.API;
+import com.odsay.odsayandroidsdk.ODsayData;
+import com.odsay.odsayandroidsdk.ODsayService;
+import com.odsay.odsayandroidsdk.OnResultCallbackListener;
 import com.skp.Tmap.TMapData;
 import com.skp.Tmap.TMapGpsManager;
 import com.skp.Tmap.TMapMarkerItem;
-import com.skp.Tmap.TMapPOIItem;
+import com.skp.Tmap.TMapPoint;
+import com.skp.Tmap.TMapPolyLine;
 import com.skp.Tmap.TMapView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
+
 /**
  * Created by User on 2017-10-16.
  */
 
 public class TmapMain extends AppCompatActivity implements View.OnClickListener {
+    TMapPoint firstmapcount; // 대중교통이용시 출발정류장 좌표
+    TMapPoint listmapcount; // 대중교통이용시 마지막정류장 좌표
+    Double startlat,startlng; // 경로조회시 출발 지점
+    Double endlat,endlng; // 경로조회시 도착지점
+    int subwayType = 0;
+    JSONObject jsonObject; // json 파싱 객체생성
+    String routedetail = ""; // 세부적인 경로 나올 데이터
     public static final int REQUEST_CODE_ACCESS_FINE_LOCATION = 19999; // 첫 출발지는 수원역
 
     private TMapView m_tmapView = null;
@@ -262,15 +282,32 @@ public class TmapMain extends AppCompatActivity implements View.OnClickListener 
                         // 다이얼로그를 띄워 자동차 경로, 보행자경로를 선택하게 해줌
                         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
                         builder.setTitle("")
-                                .setItems(new CharSequence[] {"자동차 경로", "보행자 경로"/*, "자전거 경로"*/}, new DialogInterface.OnClickListener() {
+                                .setItems(new CharSequence[] {"자동차 경로", "보행자 경로",  "버스 경로", "지하철 경로"}, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int which) {
 
-                                        // 선택된 경로에 따라 ATFindPath를 수행함
+// 선택된 경로에 따라 ATFindPath를 수행함
                                         switch (which) {
-                                            case 0: new ATFindPath(TMapData.TMapPathType.CAR_PATH, m_tmapView, m_rlCover).execute(beginMarker.getTMapPoint(), endMarker.getTMapPoint());    break;
-                                            case 1: new ATFindPath(TMapData.TMapPathType.PEDESTRIAN_PATH, m_tmapView, m_rlCover).execute(beginMarker.getTMapPoint(), endMarker.getTMapPoint());    break;
+                                            case 0: new ATFindPath(TMapData.TMapPathType.CAR_PATH, m_tmapView, m_rlCover).execute(beginMarker.getTMapPoint(), endMarker.getTMapPoint()); break;
+                                            case 1: new ATFindPath(TMapData.TMapPathType.PEDESTRIAN_PATH, m_tmapView, m_rlCover).execute(beginMarker.getTMapPoint(), endMarker.getTMapPoint()); break;
+
+// <!_-------경로 추가지점 ----------!>
+                                            case 2: // 버스
+// 출발좌표, 도착좌표,교통타입
+                                                startlat = beginMarker.getTMapPoint().getLatitude();
+                                                startlng = beginMarker.getTMapPoint().getLongitude();
+                                                endlat = endMarker.getTMapPoint().getLatitude();
+                                                endlng = endMarker.getTMapPoint().getLongitude();
+                                                OdsayAPi(startlat,startlng,endlat,endlng,2);
+                                                break;
+                                            case 3 : // 지하철
+                                                startlat = beginMarker.getTMapPoint().getLatitude();
+                                                startlng = beginMarker.getTMapPoint().getLongitude();
+                                                endlat = endMarker.getTMapPoint().getLatitude();
+                                                endlng = endMarker.getTMapPoint().getLongitude();
+                                                OdsayAPi(startlat,startlng,endlat,endlng,1);
+                                                break;
                                             default:
-                                                return;
+                                                break;
                                         }
                                     }
                                 });
@@ -283,5 +320,174 @@ public class TmapMain extends AppCompatActivity implements View.OnClickListener 
                 }
                 break;
         }
+    }
+
+    // 이동방법 검색
+    private void OdsayAPi(Double startlat, Double startlng, Double endlat, Double endlng, int i) {
+        subwayType = i; // 이동방법 1 지하철/ /
+        ODsayService odsayService;
+        odsayService = ODsayService.init(getApplicationContext(), "5Vq83w/lRS6BYBFCS/QM77UFYnTlqRyHkJGe87dbalw");
+        odsayService.setReadTimeout(5000);
+        odsayService.setConnectionTimeout(5000);
+// 서버 통신
+        odsayService.requestSearchPubTransPath(Double.toString(startlng), Double.toString(startlat), Double.toString(endlng),Double.toString(endlat), "0", "0", "0", onResultCallbackListener);
+    }
+
+    private OnResultCallbackListener onResultCallbackListener = new OnResultCallbackListener() {
+        // 호출 성공시 데이터 들어옴옴
+        @Override
+        public void onSuccess(ODsayData oDsayData, API api) {
+            jsonObject = oDsayData.getJson();
+            transportation(jsonObject);
+        }
+        // 에러 표출시 데이터
+        @Override
+        public void onError(int i, String errorMessage, API api) {
+            Log.i("SearchAPi",errorMessage);
+        }
+    };
+
+    // 이동방법 파싱
+    private void transportation(JSONObject jsonObject) {
+        try{
+            JSONObject result = jsonObject.getJSONObject("result");
+            JSONArray pathArray = result.getJSONArray("path");
+// pathArray 안의 경로 갯수
+            int pathArraycount = pathArray.length();
+            for(int a = 0; a<pathArraycount; a++) {
+                JSONObject pathArrayDetailOBJ = pathArray.getJSONObject(a);
+// 경로 타입 1 지하철 2 버스 3도보
+                int pathType = pathArrayDetailOBJ.getInt("pathType");
+                if( pathType == subwayType){
+                    JSONObject infoOBJ = pathArrayDetailOBJ.getJSONObject("info");
+                    int totalWalk = infoOBJ.getInt("totalWalk"); // 총 도보 이동거리
+                    int payment = infoOBJ.getInt("payment"); // 요금
+                    int totalTime = infoOBJ.getInt("totalTime"); // 소요시간
+                    String mapObj = infoOBJ.getString("mapObj"); // 경로 디테일 조회 아이디
+                    String firstStartStation = infoOBJ.getString("firstStartStation"); // 출발 정거장
+                    String lastEndStation = infoOBJ.getString("lastEndStation"); // 도착 정거장
+
+// 세부경로 디테일
+                    JSONArray subPathArray = pathArrayDetailOBJ.getJSONArray("subPath");
+                    int subPathArraycount = subPathArray.length();
+// 반환 데이터 스트링으로
+
+                    int busID=0;
+                    for(int b = 0; b<subPathArraycount; b++){
+                        JSONObject subPathOBJ = subPathArray.getJSONObject(b);
+                        int Type = subPathOBJ.getInt("trafficType"); // 이동방법
+                        switch (Type){
+                            case 1:
+                                routedetail += "지하철 ";
+                                break;
+                            case 2:
+                                routedetail += "버스 ";
+                                break;
+                            default:
+                                routedetail += "도보 ";
+                                break;
+                        }
+// 버스 또는 지하철 이동시에만
+                        if(Type == 1 || Type ==2){
+                            String startName = subPathOBJ.getString("startName"); // 출발지
+                            routedetail += startName+" 에서 ";
+                            String endName = subPathOBJ.getString("endName"); // 도착지
+                            routedetail += endName;
+// 버스및 지하철 정보 가져옴
+                            JSONArray laneObj = subPathOBJ.getJSONArray("lane");
+                            if(Type == 1 ){
+                                String subwayName = laneObj.getJSONObject(0).getString("name"); // 지하철 정보
+                                routedetail += subwayName+" 탑승 ";
+                            }
+                            if(Type == 2 ) {
+                                String busNo = laneObj.getJSONObject(0).getString("busNo"); // 버스정보
+                                String busroute = "["+busNo+ "] 번 탑승 ";
+                                routedetail += busroute;
+                                busID = laneObj.getJSONObject(0).getInt("busID"); // 버스정류장 id
+                            }
+                        }
+                        int distance = subPathOBJ.getInt("distance"); // 이동길이
+                        routedetail += Integer.toString(distance)+"m 이동 ";
+                        int sectionTime = subPathOBJ.getInt("sectionTime"); // 이동시간
+                        routedetail += Integer.toString(sectionTime)+"분 소요 \r\n ";
+                    } // 세부경로 종료
+
+// api 경로 좌표 요청
+                    OdsayAPiroute(mapObj);
+// 화면에 버스 및 지하철 경로 출력
+                    Dialogview();
+                    break;
+                }
+            }
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //세부경로 출력
+    private void Dialogview() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss(); //닫기
+            }
+        });
+        alert.setMessage(routedetail);
+        alert.show();
+    }
+
+    // 경로 디테일
+    private void OdsayAPiroute(String mapObj) {
+        ODsayService odsayService;
+        odsayService = ODsayService.init(getApplicationContext(), "sQLpd8xKI0T/bdwm9GFL1CBK9Ug98t81fst+OtALNQM");
+        odsayService.setReadTimeout(5000);
+        odsayService.setConnectionTimeout(5000);
+// 서버 통신
+        odsayService.requestLoadLane("0:0@"+mapObj, onResultCallbackListener1);
+    }
+
+    private OnResultCallbackListener onResultCallbackListener1 = new OnResultCallbackListener() {
+        // 호출 성공시 데이터 들어옴옴
+        @Override
+        public void onSuccess(ODsayData oDsayData, API api) {
+            jsonObject = oDsayData.getJson();
+            transportationroute(jsonObject);
+        }
+        // 에러 표출시 데이터
+        @Override
+        public void onError(int i, String errorMessage, API api) {
+            Log.i("SearchAPi",errorMessage);
+        }
+    };
+    // 경로 파싱
+    private void transportationroute(JSONObject jsonObject) {
+        TMapPolyLine map = new TMapPolyLine();
+        try{
+            JSONObject result = jsonObject.getJSONObject("result");
+            JSONArray laneArray = result.getJSONArray("lane");
+            JSONArray sectionArray = laneArray.getJSONObject(0).getJSONArray("section");
+            JSONArray graphPosArray = sectionArray.getJSONObject(0).getJSONArray("graphPos");
+            int graphPoscount = graphPosArray.length();
+            for(int a=0; a<graphPoscount; a++){
+                Double lat = graphPosArray.getJSONObject(a).getDouble("y"); // 37.456633193982924
+                Double lng = graphPosArray.getJSONObject(a).getDouble("x"); // 126.70482242067823
+                if(a==0){
+                    firstmapcount = new TMapPoint(lat, lng); // 출발 정류장 좌표
+                }
+                if(a==graphPoscount-1) {
+                    listmapcount = new TMapPoint(lat, lng); // 도착 정류장 좌표
+                }
+                TMapPoint mapcount = new TMapPoint(lat, lng);
+                map.addLinePoint(mapcount);
+            }
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+        }
+        map.setLineColor(Color.BLUE);
+        map.setLineWidth(2);
+        m_tmapView.addTMapPolyLine("path",map);
     }
 }
