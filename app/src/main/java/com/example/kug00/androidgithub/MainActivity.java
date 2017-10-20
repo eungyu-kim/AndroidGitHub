@@ -27,10 +27,10 @@ public class MainActivity extends AppCompatActivity {
     //메인 카테고리 스피너 값
     private final String[] Main_Category = {"지역선택", "서울", "인천", "대전", "대구","광주","부산","울산","울산","세종특별자치시",
             "경기도","강원도","충청북도","충청남도","경상북도","경상남도","전라북도","전라남도"};
-    //스피너 선언
+//스피너 선언
     Spinner spinner_main_category;
-    //지역 대분류 선택
-    String Selected_Category;
+            //지역 대분류 선택
+            String Selected_Category;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
