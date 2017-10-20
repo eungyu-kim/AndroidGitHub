@@ -21,6 +21,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -69,6 +70,9 @@ public class TmapMain extends AppCompatActivity implements View.OnClickListener 
     private Button m_btnPathSearch = null; // 경로검색 버튼
     private RelativeLayout m_rlCover = null;
     private TMapGpsManager m_gps = null;
+    ListView listView;
+    ArrayList<String> list; // listView에 연결할 모델 객체
+    ArrayAdapter<String>adapter;
 
 
     // dropdownlist사용해서 관련검색어 handler만들기
@@ -393,25 +397,27 @@ public class TmapMain extends AppCompatActivity implements View.OnClickListener 
                             routedetail += startName+" 에서 ";
                             String endName = subPathOBJ.getString("endName"); // 도착지
                             routedetail += endName;
-// 버스및 지하철 정보 가져옴
+// 버스및 지하철 정보 가져옴 (정보가 많으므로 array로 가져오기)
                             JSONArray laneObj = subPathOBJ.getJSONArray("lane");
-                            if(Type == 1 ){
-                                String subwayName = laneObj.getJSONObject(0).getString("name"); // 지하철 정보
+                            if(Type == 1 ){ // 지하철
+                                String subwayName = laneObj.getJSONObject(0).getString("name"); // 지하철 정보(몇호선)
                                 routedetail += subwayName+" 탑승 ";
                             }
-                            if(Type == 2 ) {
-                                String busNo = laneObj.getJSONObject(0).getString("busNo"); // 버스정보
-                                String busroute = "["+busNo+ "] 번 탑승 ";
+                            if(Type == 2 ) { // 버스
+                                String busNo = laneObj.getJSONObject(0).getString("busNo"); // 버스번호정보
+                                String busroute = " ["+busNo+ "] 번 탑승 ";
                                 routedetail += busroute;
                                 busID = laneObj.getJSONObject(0).getInt("busID"); // 버스정류장 id
                             }
                         }
                         int distance = subPathOBJ.getInt("distance"); // 이동길이
-                        routedetail += Integer.toString(distance)+"m 이동 ";
+                        routedetail += "\n( "+Integer.toString(distance)+"m 이동. ";
                         int sectionTime = subPathOBJ.getInt("sectionTime"); // 이동시간
-                        routedetail += Integer.toString(sectionTime)+"분 소요 \r\n ";
+                        routedetail += Integer.toString(sectionTime)+"분 소요 )\n";
+                        totalTime += sectionTime ;
+////////////////////////////////////////////////////////////addlist 넣기!!! 한줄마다 listview설정하기
                     } // 세부경로 종료
-
+                     routedetail += "총" + Integer.toString(totalTime) + "분 소요\n " ;
 // api 경로 좌표 요청
                     OdsayAPiroute(mapObj);
 // 화면에 버스 및 지하철 경로 출력

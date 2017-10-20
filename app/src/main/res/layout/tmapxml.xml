@@ -9,11 +9,6 @@ android:layout_height="match_parent">
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.skp.Tmap.TMapView
-        android:id="@+id/activity_main_tmv"
-        android:layout_weight="6.5"
-        android:layout_width="match_parent"
-        android:layout_height="0dp" />
 
     <LinearLayout
         android:padding="16dp"
@@ -97,6 +92,12 @@ android:layout_height="match_parent">
             android:layout_width="match_parent"
             android:layout_height="0dp" />
     </LinearLayout>
+
+    <com.skp.Tmap.TMapView
+        android:id="@+id/activity_main_tmv"
+        android:layout_weight="6.5"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
 </LinearLayout>
 
 <RelativeLayout
