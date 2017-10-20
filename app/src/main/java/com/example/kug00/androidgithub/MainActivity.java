@@ -79,11 +79,10 @@ public class MainActivity extends AppCompatActivity {
         Month1.setText(getTime(1));
         Month2.setText(getTime(1));
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.custom_simple_dropdown_item_1line, Main_Category);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Main_Category);
         Spinner spinner_main_category = (Spinner) findViewById(R.id.spinner_main_category);
         spinner_main_category.setSelection(0);
         spinner_main_category.setAdapter(adapter);
-
     }
 
     //파라미터에 따라 0일때 전체 일자 1일때 월 출력
