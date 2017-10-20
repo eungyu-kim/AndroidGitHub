@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -25,6 +27,10 @@ public class MainActivity extends AppCompatActivity {
     //메인 카테고리 스피너 값
     private final String[] Main_Category = {"지역선택", "서울", "인천", "대전", "대구","광주","부산","울산","울산","세종특별자치시",
             "경기도","강원도","충청북도","충청남도","경상북도","경상남도","전라북도","전라남도"};
+    //스피너 선언
+    Spinner spinner_main_category;
+    //지역 대분류 선택
+    String Selected_Category;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,10 +92,20 @@ public class MainActivity extends AppCompatActivity {
         Month1.setText(getTime(1));
         Month2.setText(getTime(1));
 
+        //메인 카테고리 선택 (지역)
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, Main_Category);
-        Spinner spinner_main_category = (Spinner) findViewById(R.id.spinner_main_category);
+        spinner_main_category = (Spinner) findViewById(R.id.spinner_main_category);
         spinner_main_category.setSelection(0);
         spinner_main_category.setAdapter(adapter);
+
+        spinner_main_category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id){
+                String Selected_Category = Main_Category[position];
+                Log.d("result","선택값 : "+Selected_Category);
+            }
+            public void onNothingSelected(AdapterView<?> parent){}
+
+        });
     }
 
     //파라미터에 따라 0일때 전체 일자 1일때 월 출력
