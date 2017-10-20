@@ -11,13 +11,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1.2"
+        android:background="@color/thema"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/Title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textSize="40sp"
-            android:text="로고"/>
+            android:textSize="70sp"
+            android:textColor="#ffffff"/>
     </LinearLayout>
 
     <LinearLayout
@@ -31,28 +33,32 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_menu_myplaces" />
+            android:background="@color/thema"
+            android:src="@drawable/ic_home_18dp" />
 
         <ImageButton
             android:id="@+id/goplan"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
+            android:background="@color/thema"
+            android:src="@drawable/ic_event_18dp" />
 
         <ImageButton
             android:id="@+id/goTmap"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/ic_menu_myplaces" />
+            android:background="@color/thema"
+            android:src="@drawable/ic_traffic_18dp" />
 
         <ImageButton
             android:id="@+id/imageButton4"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            app:srcCompat="@android:drawable/btn_star_big_on" />
+            android:background="@color/thema"
+            android:src="@drawable/ic_identity_18dp" />
     </LinearLayout>
 
     <LinearLayout
