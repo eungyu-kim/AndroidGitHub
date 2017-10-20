@@ -403,7 +403,7 @@ public class TmapMain extends AppCompatActivity implements View.OnClickListener 
                                 String subwayName = laneObj.getJSONObject(0).getString("name"); // 지하철 정보(몇호선)
                                 routedetail += subwayName+" 탑승 ";
                             }
-                            if(Type == 2 ) { // 버스
+                            if(Type == 2 ) { // 버스..
                                 String busNo = laneObj.getJSONObject(0).getString("busNo"); // 버스번호정보
                                 String busroute = " ["+busNo+ "] 번 탑승 ";
                                 routedetail += busroute;
