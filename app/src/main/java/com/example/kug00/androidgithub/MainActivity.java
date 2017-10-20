@@ -1,6 +1,7 @@
 package com.example.kug00.androidgithub;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -63,6 +64,12 @@ public class MainActivity extends AppCompatActivity {
         TextView Month1 = (TextView)findViewById(R.id.month1);
         TextView Month2 = (TextView)findViewById(R.id.month2);
         Button Search_Btn = (Button)findViewById(R.id.main_search_btn);
+        TextView title = (TextView) findViewById(R.id.Title);
+
+        // 타이틀글꼴 변경
+        Typeface typeface = Typeface.createFromAsset(getAssets(), "NanumPen.ttf");
+        title.setTypeface(typeface);
+        title.append("PART");
 
         //여행계획으로 화면 이동
         GoToPlan.setOnClickListener(new View.OnClickListener() {
