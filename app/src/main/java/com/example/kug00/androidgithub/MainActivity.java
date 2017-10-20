@@ -20,6 +20,7 @@ import java.util.Date;
 public class MainActivity extends AppCompatActivity {
     long mNow;
     Date mDate;
+
     //전체 일자 출력
     SimpleDateFormat Format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
     SimpleDateFormat mFormat = new SimpleDateFormat("MM");
