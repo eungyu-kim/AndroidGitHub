@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="130dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -11,7 +11,9 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="0.3"
-        android:gravity="center_vertical"/>
+        android:gravity="center_vertical"
+            android:scaleType="fitXY"
+            android:padding="5dp"/>
 
         <LinearLayout
         android:layout_width="0dp"
@@ -27,7 +29,7 @@
             android:gravity="center_vertical"
             android:text="New Text"
             android:textColor="#000000"
-            android:textSize="24dp" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/localaddress"
@@ -36,7 +38,7 @@
             android:layout_weight="1"
             android:text="New Text"
             android:textColor="#666666"
-            android:textSize="16dp" />
+            android:textSize="16sp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

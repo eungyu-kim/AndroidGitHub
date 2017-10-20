@@ -96,12 +96,11 @@
             android:orientation="horizontal"
             android:layout_weight="1">
 
-            <Button
-                android:id="@+id/button4"
+            <Spinner
+                android:id="@+id/spinner_main_category"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:text="대분류" />
+                android:layout_weight="1" />
 
             <Button
                 android:id="@+id/button3"
