@@ -28,8 +28,6 @@
         <activity android:name=".TmapMain"/>
         <activity android:name=".PlanActivity"/>
         <activity android:name=".PartyActivity"/>
-        <activity android:name=".AddSchedule"/>
-        <activity android:name=".UpDate"/>
         <activity android:name=".localSearchActivity"/>
     </application>
 
